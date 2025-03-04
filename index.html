@@ -17,70 +17,129 @@
             background-image: url('https://static.vecteezy.com/system/resources/previews/006/691/884/non_2x/blue-question-mark-background-with-text-space-quiz-symbol-vector.jpg');
             background-size: cover;
             background-position: center;
+            animation: bgAnimation 30s infinite;
+        }
+
+        @keyframes bgAnimation {
+            0% { background-color: #f3f3f3; }
+            50% { background-color: #87CEEB; }
+            100% { background-color: #f3f3f3; }
         }
 
         #quiz-container {
             background-color: rgba(255, 255, 255, 0.8);
-            padding: 20px;
-            border-radius: 10px;
+            padding: 40px;
+            border-radius: 20px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-            width: 300px;
+            width: 350px;
             text-align: center;
+            animation: containerAnimation 3s ease-in-out;
+        }
+
+        @keyframes containerAnimation {
+            0% { transform: scale(0.9); opacity: 0; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+
+        h2 {
+            color: #ff6347;
+            font-size: 2em;
+            font-weight: bold;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
         }
 
         .question {
-            font-size: 18px;
+            font-size: 20px;
             margin-bottom: 20px;
+            color: #333;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
         }
 
         .answer {
             margin: 10px;
-            padding: 10px;
-            background-color: #e7e7e7;
+            padding: 12px;
+            background-color: #f8f8f8;
             border: none;
             width: 100%;
             cursor: pointer;
-            border-radius: 5px;
+            border-radius: 10px;
+            font-size: 18px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
 
         .answer:hover {
-            background-color: #ddd;
+            background-color: #ff6347;
+            color: white;
+            transform: scale(1.05);
         }
 
         #score {
             font-size: 20px;
-            margin-bottom: 20px;
+            margin-top: 20px;
+            color: #ff6347;
         }
 
         #next-btn {
-            padding: 10px 20px;
+            padding: 12px 20px;
             background-color: #4CAF50;
             color: white;
             border: none;
-            border-radius: 5px;
+            border-radius: 10px;
             cursor: pointer;
+            margin-top: 20px;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
         #next-btn:hover {
             background-color: #45a049;
+            transform: scale(1.05);
         }
 
         #result {
             font-size: 24px;
             margin-top: 20px;
             color: #333;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        .emoji {
+            font-size: 30px;
+            margin-right: 10px;
+        }
+
+        #background-music {
+            display: none;
+        }
+
+        .answer:hover .emoji {
+            color: white;
         }
     </style>
 </head>
 <body>
+    <audio id="background-music" loop>
+        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
+
     <div id="quiz-container">
+        <h2>Funny Quiz 🤔</h2>
         <div id="quiz">
-            <h2>Funny Quiz</h2>
             <div id="question" class="question">Question will appear here</div>
-            <button class="answer" id="answer1" onclick="checkAnswer(0)"></button>
-            <button class="answer" id="answer2" onclick="checkAnswer(1)"></button>
-            <button class="answer" id="answer3" onclick="checkAnswer(2)"></button>
-            <button class="answer" id="answer4" onclick="checkAnswer(3)"></button>
+            <button class="answer" id="answer1" onclick="checkAnswer(0)">
+                <span class="emoji">🎤</span>Answer 1
+            </button>
+            <button class="answer" id="answer2" onclick="checkAnswer(1)">
+                <span class="emoji">🎶</span>Answer 2
+            </button>
+            <button class="answer" id="answer3" onclick="checkAnswer(2)">
+                <span class="emoji">💃</span>Answer 3
+            </button>
+            <button class="answer" id="answer4" onclick="checkAnswer(3)">
+                <span class="emoji">🕺</span>Answer 4
+            </button>
             <div id="score">Score: 0</div>
             <button id="next-btn" onclick="nextQuestion()">Next Question</button>
         </div>
@@ -89,40 +148,20 @@
 
     <script>
         const questions = [
-            {question: "How bad are you at singing?", answers: ["I sound like a cat being stepped on", "I'm a future Grammy winner", "I'm just okay", "I only sing in the shower"], correct: 1},
-            {question: "Do you dance like Michael Jackson?", answers: ["I have two left feet", "I'm the moonwalk king!", "I can do the Robot", "I dance like I'm in a slow motion movie"], correct: 1},
-            {question: "Are you black? (No offense)", answers: ["I’m a rainbow of awesome", "I’m pale like a ghost", "I’m just me, not defined by color", "I think I'm a chameleon!"], correct: 2},
-            {question: "Do you have a pet dragon?", answers: ["Of course, it’s chilling on my balcony", "Not yet, but I’m working on it", "I have a pet hamster", "Is a lizard a dragon?"], correct: 0},
-            {question: "Can you make a perfect pancake?", answers: ["I’ve burned every single one", "I’m basically a pancake chef", "I’m decent, but a little messy", "I can’t even flip one"], correct: 1},
-            {question: "Do you believe in aliens?", answers: ["Absolutely! They’re out there", "Nope, they’re just stars", "Maybe, I keep an eye on the skies", "I am one!" ], correct: 0},
-            {question: "Can you speak fluent dolphin?", answers: ["I’ve got the squeaks down", "I can do the flips", "I can understand a little", "I wish!"], correct: 0},
-            {question: "What’s your superpower?", answers: ["I can eat an entire pizza in one sitting", "I can teleport (to the fridge)", "I can talk to dogs", "I have the power to nap anytime"], correct: 3},
-            {question: "Do you believe in unicorns?", answers: ["Totally, I saw one last week", "They’re just horse with cool horns", "Maybe, in another dimension", "I’m too busy for unicorns"], correct: 0},
-            {question: "Can you wiggle your ears?", answers: ["I can wiggle everything", "I wish I could", "I can do a backflip", "Only when I’m concentrating really hard"], correct: 1},
-            {question: "Do you like pineapple on pizza?", answers: ["Yes, it's heaven", "No way!", "Only with extra cheese", "I’m indifferent"], correct: 0},
-            {question: "Do you sing in the shower?", answers: ["I’m a full concert in the shower", "I hum to myself", "I just stand there", "I sing to annoy my neighbors"], correct: 0},
-            {question: "Are you a morning person?", answers: ["I wake up with the sun", "I need 5 alarms", "I wake up at noon", "I wake up to coffee"], correct: 0},
-            {question: "Do you talk to yourself?", answers: ["All the time, I’m my best friend", "Only when I'm bored", "Nope, never", "I give myself pep talks"], correct: 0},
-            {question: "Can you juggle?", answers: ["I can juggle cookies", "Only two balls", "I’m an expert", "Nope, I can barely juggle my life"], correct: 1},
-            {question: "Are you an introvert or extrovert?", answers: ["I’m the life of the party", "I enjoy my solo adventures", "Depends on the mood", "I’m an introverted extrovert"], correct: 2},
-            {question: "Do you like memes?", answers: ["I live for memes", "I don’t get them", "Some memes are funny", "I like my own memes"], correct: 0},
-            {question: "Do you love dogs or cats more?", answers: ["Dogs forever", "Cats rule", "I love both equally", "I prefer fish"], correct: 0},
-            {question: "Do you have a favorite pizza topping?", answers: ["Pineapple, obviously", "Pepperoni", "Cheese only", "All the veggies"], correct: 1},
-            {question: "Can you roll your tongue?", answers: ["Yes, I’m a tongue roller", "No, I’ve tried", "Only in my dreams", "Maybe on a good day"], correct: 0},
-            {question: "Are you a good dancer?", answers: ["I dance like no one’s watching", "I have no rhythm", "I can moonwalk", "I’m a robot on the dance floor"], correct: 0},
-            {question: "Do you prefer cake or pie?", answers: ["Cake, always", "Pie, for life", "Both, why choose?", "It depends on the flavor"], correct: 0},
-            {question: "Do you think you’re funny?", answers: ["I’m hilarious", "I make people cringe", "I’m just myself", "I try but fail"], correct: 0},
-            {question: "Can you imitate animal sounds?", answers: ["I can do a perfect dog bark", "I can roar like a lion", "I’m great at bird calls", "Nope, not my thing"], correct: 0},
-            {question: "Do you like to sleep in?", answers: ["I love my bed", "I’m up with the sun", "I only sleep in on weekends", "I nap every chance I get"], correct: 0},
-            {question: "Do you enjoy video games?", answers: ["I’m a gaming champion", "Only when I’m bored", "I prefer board games", "I love mobile games"], correct: 0},
-            {question: "Can you whistle?", answers: ["I’m a pro", "I’m working on it", "I can whistle in my sleep", "Nope, I can’t"], correct: 0},
-            {question: "Do you watch cartoons?", answers: ["Cartoons are life", "Only old-school ones", "Occasionally", "Never, I’m too cool for cartoons"], correct: 0},
-            {question: "Can you do a backflip?", answers: ["I can do a triple backflip", "I’m too scared", "Maybe if I had a trampoline", "I wish!"], correct: 1},
-            {question: "Do you have a secret talent?", answers: ["I can do amazing impressions", "I can touch my nose with my tongue", "I can nap anywhere", "I’m secretly a superhero"], correct: 0}
+            {question: "How bad are you at singing?", answers: ["I sound like a cat being stepped on 🎤", "I'm a future Grammy winner 🎶", "I'm just okay 🎶", "I only sing in the shower 💃"], correct: 1},
+            {question: "Do you dance like Michael Jackson?", answers: ["I have two left feet 🕺", "I'm the moonwalk king! 💃", "I can do the Robot 🤖", "I dance like I'm in slow motion 💃"], correct: 1},
+            {question: "Are you black? (No offense)", answers: ["I’m a rainbow of awesome 🌈", "I’m pale like a ghost 👻", "I’m just me, not defined by color ❤️", "I think I'm a chameleon! 🦎"], correct: 2},
+            {question: "Do you have a pet dragon?", answers: ["Of course, it’s chilling on my balcony 🐉", "Not yet, but I’m working on it 🏰", "I have a pet hamster 🐹", "Is a lizard a dragon? 🦎"], correct: 0},
+            {question: "Can you make a perfect pancake?", answers: ["I’ve burned every single one 🥞", "I’m basically a pancake chef 🧑‍🍳", "I’m decent, but a little messy 🍽️", "I can’t even flip one 🥄"], correct: 1},
+            {question: "Do you believe in aliens?", answers: ["Absolutely! They’re out there 👽", "Nope, they’re just stars 🌟", "Maybe, I keep an eye on the skies 🔭", "I am one! 👽"], correct: 0},
+            // Add more questions as needed
         ];
 
         let currentQuestionIndex = 0;
         let score = 0;
+
+        // Play background music
+        document.getElementById('background-music').play();
 
         function loadQuestion() {
             const question = questions[currentQuestionIndex];
@@ -162,4 +201,3 @@
     </script>
 </body>
 </html>
-
