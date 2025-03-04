@@ -77,10 +77,10 @@
         <div id="quiz">
             <h2>Funny Quiz</h2>
             <div id="question" class="question">Question will appear here</div>
-            <button class="answer" id="answer1"></button>
-            <button class="answer" id="answer2"></button>
-            <button class="answer" id="answer3"></button>
-            <button class="answer" id="answer4"></button>
+            <button class="answer" id="answer1" onclick="checkAnswer(0)"></button>
+            <button class="answer" id="answer2" onclick="checkAnswer(1)"></button>
+            <button class="answer" id="answer3" onclick="checkAnswer(2)"></button>
+            <button class="answer" id="answer4" onclick="checkAnswer(3)"></button>
             <div id="score">Score: 0</div>
             <button id="next-btn" onclick="nextQuestion()">Next Question</button>
         </div>
@@ -134,16 +134,14 @@
             document.getElementById('score').textContent = `Score: ${score}`;
         }
 
-        function nextQuestion() {
-            const selectedAnswer = document.querySelector('input[name="answer"]:checked');
-            if (!selectedAnswer) return; // No answer selected
-
-            const answerIndex = selectedAnswer.value;
-
-            if (parseInt(answerIndex) === questions[currentQuestionIndex].correct) {
+        function checkAnswer(selectedIndex) {
+            const question = questions[currentQuestionIndex];
+            if (selectedIndex === question.correct) {
                 score++;
             }
+        }
 
+        function nextQuestion() {
             currentQuestionIndex++;
 
             if (currentQuestionIndex < questions.length) {
